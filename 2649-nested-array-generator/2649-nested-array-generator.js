@@ -3,13 +3,7 @@
  * @return {Generator}
  */
 var inorderTraversal = function*(arr) {
-    for (const x of arr) {
-    if (Array.isArray(x)) {
-      yield* inorderTraversal(x);
-    } else {
-      yield x; // integer
-    }
-  }
+    for (let i of arr.flat(Infinity)) yield i;
 };
 
 /**
