@@ -4,20 +4,19 @@
  */
 function memoize(fn) {
     
-    const cache = new Map();
+   let cache = {};
 
-  return function(...args) {
-    // Create a unique key based on the arguments and their order
-    const key = JSON.stringify(args);
-
-    if (cache.has(key)) {
-      return cache.get(key);
+    return function(...args) {
+        let n = JSON.stringify(args);
+        if(n in cache) {
+            return cache[n];
+        }
+        else {
+            let result = fn.apply(this, args);
+            cache[n] = result;
+            return result;
+        }
     }
-
-    const result = fn(...args);
-    cache.set(key, result);
-    return result;
-  };
 }
 
 
