@@ -11,28 +11,26 @@
 class Solution {
     public ListNode modifiedList(int[] nums, ListNode head) {
          
-         Set<Integer> toRemove = new HashSet<>();
-
-        for (int num : nums) {
-            toRemove.add(num);
+         int max = Integer.MIN_VALUE;
+        for(int i = 0 ; i < nums.length ; i++){
+            max = nums[i] > max ? nums[i] : max;
         }
-
-        ListNode dummy = new ListNode(0);
+        boolean fast[] = new boolean[max + 1];
+        for(int i = 0 ; i < nums.length ; i++){
+            fast[nums[i]] = true;
+        }
+        ListNode dummy = new ListNode(-1);
         dummy.next = head;
-
-        ListNode prev = dummy;
-        ListNode curr = head;
-
-        while (curr != null) {
-            if (toRemove.contains(curr.val)) {
-                prev.next = curr.next;
-            } else {
-                prev = curr;
+        ListNode temp = dummy;
+        while(temp.next!= null){
+            if( temp.next.val <= max && fast[temp.next.val]){
+                // temp.next.val <= max we need to write this becuase if list elemnt is 32 and max array element is 20 if( temp.next.val <= max && freq[temp.next.val] > 0)
+                temp.next = temp.next.next;
             }
-
-            curr = curr.next;
+            else {
+                temp = temp.next;
+            }
         }
-
         return dummy.next;
     }
     
